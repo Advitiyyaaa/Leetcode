@@ -57,7 +57,7 @@ function App() {
           isAuthenticated ? <Layout /> : <Navigate to="/auth" />
         }
       >
-        <Route path="/home" element={<Homepage />} />
+        <Route path="/home" element={isAuthenticated ? <Homepage /> : <Navigate to="/auth"/>} />
 
         <Route
           path="/problem/:problemId"
