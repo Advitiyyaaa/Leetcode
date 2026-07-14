@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosClient from "../utils/axiosClient";
-import ProblemCard from "../components/problemCard";
+import ProblemCard from "../components/ProblemCard";
 
 /*SHIMMER*/
 function ProblemShimmer() {
