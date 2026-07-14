@@ -22,7 +22,7 @@ const register = async (req,res)=>{
         }
 
         const token = jwt.sign({_id:user._id, emailId:emailId, role:'user'},process.env.JWT_SECRET_KEY,{expiresIn:3600})
-        res.cookie("token",token,{maxAge: 60*60*1000})
+        res.cookie("token",token,{maxAge: 60*60*1000, httpOnly: true, sameSite: "none", secure: true})
         res.status(201).json({
             user:reply,
             message: "Registration successful"
@@ -56,7 +56,7 @@ const login = async (req,res)=>{
             _id:user._id
         }
         const token = await jwt.sign({_id:user._id,emailId:emailId, role: user.role},process.env.JWT_SECRET_KEY,{expiresIn:3600})
-        res.cookie("token",token,{maxAge: 60*60*1000})
+        res.cookie("token",token,{maxAge: 60*60*1000, httpOnly: true, sameSite: "none", secure: true})
         res.status(201).json({
             user:reply,
             message: "Login successful"
@@ -75,7 +75,7 @@ const logout = async(req,res)=>{
         await RedisClient.set(`token:${token}`,'blocked')
         await RedisClient.expireAt(`token:${token}`,payload.exp)
 
-        res.cookie('token',null,{expires: new Date(Date.now())})
+        res.cookie('token',null,{expires: new Date(Date.now()), httpOnly: true, sameSite: "none", secure: true})
         res.send("Logged Out Succesfully")
     }
     catch(err){
